@@ -26,7 +26,6 @@ class Server implements IServer
         {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -46,8 +45,9 @@ class Server implements IServer
         }
     }
 
-    void stop()
+    void stop() throws IOException
     {
+        serverSocket_.close();
         running_.set(false);
     }
 }
