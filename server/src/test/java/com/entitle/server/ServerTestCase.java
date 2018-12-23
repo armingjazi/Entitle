@@ -3,30 +3,27 @@ package com.entitle.server;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.Mockito.*;
-
 import org.mockito.stubbing.Answer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.mockito.Mockito.*;
 
 public class ServerTestCase
 {
     private Server server_;
     private IConnectionFactory connectionFactory_;
-    private ISocketGate socketGate_;
 
     @Before
     public void setUp()
     {
         connectionFactory_ = mock(IConnectionFactory.class);
-        socketGate_ = mock(ISocketGate.class);
 
-        server_ = new Server(3000,  connectionFactory_, socketGate_);
+        server_ = new Server(3000,  connectionFactory_);
     }
 
     @After
@@ -36,22 +33,22 @@ public class ServerTestCase
     }
 
     @Test
-    public void server_receives_new_connections() throws IOException, InterruptedException
+    public void server_receives_new_connections_and_runs_them() throws IOException, InterruptedException
     {
         AtomicInteger connections = new AtomicInteger(0);
         // wait at least for ten connection
         CountDownLatch countDownLatch = new CountDownLatch(10);
 
-        Socket socket = mock(Socket.class);
+        IServerConnection serverConnection = mock(IServerConnection.class);
         Thread thread = new Thread(server_);
 
-        when(socketGate_.waitAccept(any(ServerSocket.class))).thenAnswer((Answer<Socket>) invocation ->
+        when(connectionFactory_.create(any(ServerSocket.class))).thenAnswer((Answer<IServerConnection>) invocation ->
         {
             countDownLatch.countDown();
 
             connections.incrementAndGet();
 
-            return socket;
+            return serverConnection;
         });
 
         thread.start();
@@ -61,17 +58,17 @@ public class ServerTestCase
         server_.stop();
         thread.join();
 
-        verify(connectionFactory_, times(connections.get())).create(socket);
+        verify(serverConnection, times(connections.get())).start();
     }
 
     @Test
     public void server_receives_exactly_one_new_connection() throws IOException, InterruptedException
     {
-        Socket socket = mock(Socket.class);
+        IServerConnection serverConnection = mock(IServerConnection.class);
         Boolean sleep = true;
         Boolean join = true;
 
-        when(socketGate_.waitAccept(any(ServerSocket.class))).thenAnswer((Answer<Socket>) invocation ->
+        when(connectionFactory_.create(any(ServerSocket.class))).thenAnswer((Answer<IServerConnection>) invocation ->
         {
             synchronized (join)
             {
@@ -83,7 +80,7 @@ public class ServerTestCase
                 sleep.wait();
             }
 
-            return socket;
+            return serverConnection;
         });
 
         Thread thread = new Thread(server_);
@@ -103,6 +100,6 @@ public class ServerTestCase
 
         thread.join();
 
-        verify(connectionFactory_, times(1)).create(socket);
+        verify(serverConnection, times(1)).start();
     }
 }

@@ -6,7 +6,10 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/client.main.iml" filepath="$PROJECT_DIR$/.idea/modules/client.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/client.test.iml" filepath="$PROJECT_DIR$/.idea/modules/client.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/server.iml" filepath="$PROJECT_DIR$/.idea/modules/server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/server.integrationTest.iml" filepath="$PROJECT_DIR$/.idea/modules/server.integrationTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/server.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/src/server.src.iml" filepath="$PROJECT_DIR$/.idea/modules/src/server.src.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/src/integration_test/server.src.integration_test.iml" filepath="$PROJECT_DIR$/.idea/modules/src/integration_test/server.src.integration_test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/server.test.iml" filepath="$PROJECT_DIR$/.idea/modules/server.test.iml" />
     </modules>
   </component>

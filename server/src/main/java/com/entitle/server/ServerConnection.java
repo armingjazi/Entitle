@@ -13,6 +13,10 @@ public class ServerConnection implements IServerConnection
         job_ = job;
     }
 
+    public void start() {
+        new Thread(this);
+    }
+
     @Override
     public void run()
     {

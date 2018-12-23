@@ -2,20 +2,17 @@ package com.entitle.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 class Server implements IServer
 {
     private ServerSocket serverSocket_;
     private IConnectionFactory connectionFactory_;
-    private ISocketGate socketGate_;
     private AtomicBoolean running_;
 
-    Server(int port, IConnectionFactory serverConnectionFactory, ISocketGate socketGate)
+    Server(int port, IConnectionFactory serverConnectionFactory)
     {
         connectionFactory_ = serverConnectionFactory;
-        socketGate_ = socketGate;
 
         try
         {
@@ -33,15 +30,15 @@ class Server implements IServer
     {
         while(running_.get())
         {
-            try (Socket socket = socketGate_.waitAccept(serverSocket_))
+            IServerConnection connection = null;
+            try
             {
-                Runnable connection = connectionFactory_.create(socket);
-                new Thread(connection).start();
-
+                connection = connectionFactory_.create(serverSocket_);
             } catch (IOException e)
             {
                 e.printStackTrace();
             }
+            connection.start();
         }
     }
 

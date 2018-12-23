@@ -4,5 +4,5 @@ import java.net.Socket;
 
 public interface IJob
 {
-    void accomplish(Socket socket_);
+    void accomplish(Socket socket);
 }

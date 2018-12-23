@@ -4,6 +4,7 @@
     <bytecodeTargetLevel>
       <module name="client.main" target="1.8" />
       <module name="client.test" target="1.8" />
+      <module name="server.integrationTest" target="1.8" />
       <module name="server.main" target="1.8" />
       <module name="server.test" target="1.8" />
     </bytecodeTargetLevel>

@@ -15,3 +15,36 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile "org.mockito:mockito-core:2.+"
 }
+
+sourceSets {
+    integrationTest {
+        java.srcDir 'src/integration_test/java'
+    }
+}
+
+dependencies {
+    integrationTestCompile sourceSets.main.output
+    integrationTestCompile sourceSets.test.output
+
+    integrationTestCompile configurations.compile
+    integrationTestCompile configurations.testCompile
+
+    integrationTestCompile configurations.runtime
+    integrationTestCompile configurations.testRuntime
+}
+
+task integrationTest(type: Test) {
+
+    group = LifecycleBasePlugin.VERIFICATION_GROUP
+    description = 'Runs the integration tests.'
+
+    maxHeapSize = '1024m'
+
+    classpath = sourceSets.integrationTest.runtimeClasspath
+
+    binResultsDir = file("$buildDir/integration-test-results/binary/integrationTest")
+
+    mustRunAfter tasks.test
+}
+
+check.dependsOn integrationTest

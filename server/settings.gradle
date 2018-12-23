@@ -1,2 +1,4 @@
 rootProject.name = 'server'
+include 'src:integration_test'
+findProject(':src:integration_test')?.name = 'integration_test'
 

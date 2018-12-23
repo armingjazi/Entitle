@@ -1,8 +1,9 @@
 package com.entitle.server;
 
-import java.net.Socket;
+import java.io.IOException;
+import java.net.ServerSocket;
 
 public interface IConnectionFactory
 {
-    Runnable create(Socket socket);
+    IServerConnection create(ServerSocket serverSocket) throws IOException;
 }
