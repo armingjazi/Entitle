@@ -1,5 +1,6 @@
 package com.entitle.server;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.mockito.Mockito.*;
@@ -33,7 +35,7 @@ public class ServerTestCase
     }
 
     @Test
-    public void server_receives_new_connections_and_runs_them() throws IOException, InterruptedException
+    public void server_receives_new_connections_and_starts_them() throws IOException, InterruptedException
     {
         AtomicInteger connections = new AtomicInteger(0);
         // wait at least for ten connection

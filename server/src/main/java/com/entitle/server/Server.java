@@ -2,6 +2,7 @@ package com.entitle.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 class Server implements IServer
@@ -30,21 +31,25 @@ class Server implements IServer
     {
         while(running_.get())
         {
-            IServerConnection connection = null;
+            IServerConnection connection;
             try
             {
                 connection = connectionFactory_.create(serverSocket_);
+                connection.start();
             } catch (IOException e)
             {
                 e.printStackTrace();
             }
-            connection.start();
         }
     }
 
     void stop() throws IOException
     {
-        serverSocket_.close();
         running_.set(false);
+
+        // this is known as poison pill, to stop the other thread from waiting on new connection
+        new Socket("localhost", 3000);
+
+        serverSocket_.close();
     }
 }

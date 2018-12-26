@@ -14,7 +14,7 @@ public class ServerConnection implements IServerConnection
     }
 
     public void start() {
-        new Thread(this);
+        new Thread(this).start();
     }
 
     @Override

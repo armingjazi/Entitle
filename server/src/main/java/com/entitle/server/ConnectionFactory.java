@@ -8,7 +8,7 @@ public class ConnectionFactory implements IConnectionFactory
 {
     private final IJob job_;
 
-    public ConnectionFactory(IJob job)
+    ConnectionFactory(IJob job)
     {
         job_ = job;
     }
